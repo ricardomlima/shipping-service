@@ -10,6 +10,9 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony && \
     chmod a+x /usr/local/bin/symfony
 
+RUN docker-php-ext-install pdo
+RUN docker-php-ext-install pdo_mysql
+
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY fpm.conf /usr/local/etc/php-fpm.d/zzz-fpm.conf
 WORKDIR /home/www-data/app
