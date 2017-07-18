@@ -1,0 +1,37 @@
+nginx:
+  build: images/nginx
+  command: nginx -g "daemon off;"
+  links:
+    - php
+  ports:
+    - "80:80"
+  volumes:
+    - ./shipping-service:/home/www-data/app
+php:
+  build: images/php
+  volumes:
+    - ./shipping-service:/home/www-data/app
+  ports:
+    - "9000:9000"
+  links:
+    - db
+  environment:
+    APP_ENV: local
+    APP_DEBUG: 'true'
+    APP_KEY: SomeRandomKey!!!
+    APP_LOCALE: en
+    APP_FALLBACK_LOCALE: en
+    DB_CONNECTION: mysql
+    DB_HOST: db
+    DB_DATABASE: shipping
+    DB_USERNAME: ricardo
+    DB_PASSWORD: secret
+db:
+  image: mysql
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_DATABASE: shipping
+    MYSQL_USER: ricardo
+    MYSQL_PASSWORD: secret
