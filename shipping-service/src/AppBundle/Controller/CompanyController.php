@@ -14,10 +14,9 @@ class CompanyController extends Controller
      */
     public function listAction()
     {
-        return new Response('companies');
-        #return $this->render('AppBundle:Company:list.html.twig', array(
-        #    // ...
-        #));
+        return $this->render('AppBundle:Company:list.html.twig', array(
+            // ...
+        ));
     }
 
     /**
