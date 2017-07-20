@@ -17,9 +17,8 @@ COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY fpm.conf /usr/local/etc/php-fpm.d/zzz-fpm.conf
 WORKDIR /home/www-data/app
 
-#PHP FPM PROCESS MUST RUN ON USER FOR LOG FILE WRITING PERMISSION
-#RUN adduser -S php
-#USER php
+#PHP LOG FILE WRITING PERMISSION
+USER www-data
 
 RUN rm -rf /var/cache/apk && mkdir -p /var/cache/apk
 
