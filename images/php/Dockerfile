@@ -19,6 +19,9 @@ WORKDIR /home/www-data/app
 
 #PHP LOG FILE WRITING PERMISSION
 USER www-data
+RUN chown -R www-data:www-data /home/www-data/app/var/cache &&\
+    chown -R www-data:www-data /home/www-data/app/var/logs &&\
+    chown -R www-data:www-data /home/www-data/app/var/sessions
 
 RUN rm -rf /var/cache/apk && mkdir -p /var/cache/apk
 
