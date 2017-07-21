@@ -6,6 +6,7 @@ use AppBundle\Entity\Company;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Company controller.
@@ -81,12 +82,27 @@ class CompanyController extends Controller
      */
     public function editAction(Request $request, Company $company)
     {
+        $em = $this->getDoctrine()->getManager();
+        $originalShippingRanges = new ArrayCollection();
+        foreach($company->getShippingRanges() as $shippingRange){
+            $originalShippingRanges->add($shippingRange);
+        }
+
         $deleteForm = $this->createDeleteForm($company);
         $editForm = $this->createForm('AppBundle\Form\CompanyType', $company);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            foreach($originalShippingRanges as $shippingRange){
+                if (false === $company->getShippingRanges()->contains($shippingRange)) {
+                    // remove the Company from the ShippingRange
+                    $shippingRange->setCompany(null);
+
+                    $em->persist($shippingRange);
+                    $em->remove($shippingRange);
+                }
+            }
+            $em->flush();
 
             return $this->redirectToRoute('company_edit', array('id' => $company->getId()));
         }

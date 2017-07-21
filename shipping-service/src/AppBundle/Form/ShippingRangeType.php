@@ -5,23 +5,24 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class CompanyType extends AbstractType
+class ShippingRangeType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name');
-
-        $builder->add('shippingRanges', CollectionType::class, array(
-            'entry_type' => 'AppBundle\Form\ShippingRangeType',
-            'allow_add'  => true,
-            'by_reference' => false,
-            'allow_delete' => true
-        ));
+        $builder
+            ->add('cepFrom')
+            ->add('cepTo')
+            ->add('priceKg')
+            ->add('priceKgAdditional')
+            ->add('minDeadline')
+            ->add('maxDeadline')
+            ->add('extradayOverweightTrigger')
+            ->add('priceOverweightLimit')
+            ->add('extradayOverweightLimit');
     }
     
     /**
@@ -30,7 +31,7 @@ class CompanyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Company'
+            'data_class' => 'AppBundle\Entity\ShippingRange'
         ));
     }
 
@@ -39,7 +40,7 @@ class CompanyType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_company';
+        return 'appbundle_shippingrange';
     }
 
 

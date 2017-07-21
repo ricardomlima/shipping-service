@@ -2,9 +2,17 @@
 
 {% block body %}
     <h1>Company creation</h1>
-
+    <div style='display:none' id='shipping-range-template'>
+        {{ form_widget(form.shippingRanges.vars.prototype) }}
+    </div>
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_row(form.name) }}
+        <h3>Shipping ranges</h3>
+        <ul class='shipping-ranges'>
+            {% for shippingRange in form.shippingRanges %}
+                <li class='shipping-range-row'>{{ form_row(shippingRange) }}</li>
+            {% endfor %}
+        </ul>
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 
@@ -13,4 +21,6 @@
             <a href="{{ path('company_index') }}">Back to the list</a>
         </li>
     </ul>
+<script src='/js/company.js'></script>
+
 {% endblock %}

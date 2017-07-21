@@ -2,9 +2,18 @@
 
 {% block body %}
     <h1>Company edit</h1>
-
+    <div style='display:none' id='shipping-range-template'>
+        {{ form_widget(edit_form.shippingRanges.vars.prototype) }}
+    </div>
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
+        {{ form_row(edit_form.name) }}
+        <h3>Shipping ranges</h3>
+        <ul class='shipping-ranges'>
+            {% for shippingRange in edit_form.shippingRanges %}
+                <li class='shipping-range-row'>{{ form_row(shippingRange) }}</li>
+            {% endfor %}
+        </ul>
+
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 
@@ -18,4 +27,5 @@
             {{ form_end(delete_form) }}
         </li>
     </ul>
+<script src='/js/company.js'></script>
 {% endblock %}
